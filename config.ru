@@ -18,3 +18,8 @@ map '/trace' do
     run TraceController
 end
 
+require File.join(File.dirname(__FILE__), 'app/ike_controller.rb')
+map '/ike' do
+  run IkeController
+end
+

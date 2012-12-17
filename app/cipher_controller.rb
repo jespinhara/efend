@@ -5,7 +5,7 @@ class CipherController < BaseController
 
 	post '/' do
 		if IPAddress.valid? "#{params[:target_ip]}"
-			@command_line = "./sslthing #{params[:target_ip]}:#{params[:target_port]} -v"
+			@command_line = "/usr/bin/sslthing #{params[:target_ip]}:#{params[:target_port]} -v"
     		@output = IO.popen(@command_line).read
     		erb :'cipher/response'
   		else
