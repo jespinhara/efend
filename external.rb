@@ -137,7 +137,12 @@ __END__
   <h2>Hosts Info</h2>
   <%= host.name %>
   <h3>Command Info</h3>
-  <%= host.result_cipher %>
-  <%= host.result_trace %>
+  <textarea cols="80" rows="30">
+    <%= html_escape host.result_cipher %>
+  </textarea>
+  <textarea cols="80" rows="30">
+    <%= html_escape host.result_trace %>
+  </textarea>
 </p>
 <% end %>
+<a href="/">Back to Home</a>
