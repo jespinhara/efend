@@ -18,4 +18,4 @@ Since **efend** uses [Sinatra](http://www.sinatrarb.com/), which is based on [Ra
     
 ## Screenshot
 
-http://img248.imageshack.us/img248/2438/screenshot20121217at217.png
+[CheckCiphers](http://img248.imageshack.us/img248/2438/screenshot20121217at217.png)
