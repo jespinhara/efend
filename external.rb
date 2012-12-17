@@ -1,6 +1,21 @@
 require 'sinatra'
 require 'ipaddress'
+require 'data_mapper'
 include ERB::Util
+
+DataMapper::setup(:default,"sqlite3://#{Dir.pwd}/database.db")
+
+class Host
+  include DataMapper::Resource
+  property :id, Serial
+  property :name, String
+  property :created_at, Time
+  property :result_cipher, Text
+  property :result_trace, Text
+  property :target_param, Text
+end
+
+DataMapper.finalize.auto_upgrade!
 
 get '/' do
   erb :index_page
@@ -14,6 +29,11 @@ post '/cipher' do
   if IPAddress.valid? "#{params[:target_ip]}"
     @command_line = "./sslthing #{params[:target_ip]}:#{params[:target_port]} -v"
     @output = IO.popen(@command_line).read
+    h = Host.new
+    h.name = params[:target_ip]
+    h.created_at = Time.now
+    h.result_cipher = @output
+    h.save
     erb :result_page
   else
     $stderr.puts ("Invalid IP #{params[:target_ip]}")
@@ -28,11 +48,24 @@ post '/trace' do
   if IPAddress.valid? "#{params[:target_ip]}"
     @command_line = "/usr/bin/curl -i -X TRACE -H #{params[:target_param]} -k http://#{params[:target_ip]}"
     @output_trace = IO.popen(@command_line).read
+    h = Host.new
+    h.name = params[:target_ip]
+    h.created_at = Time.now
+    h.result_trace = @output_trace
+    h.target_param = params[:target_param]
+    h.save
     erb :result_page_trace
   else
     $stderr.puts ("Invalid IP #{params[:target_ip]}")
   end
 end
+
+get '/list' do
+  @hosts = Host.all :order => :id.desc
+  erb :list
+end
+
+
 
 __END__
 
@@ -96,3 +129,14 @@ __END__
 @@ index_page
 <a href="/cipher">Check Weak Ciphers</a><br/>
 <a href="/trace">Check Trace</a><br/>
+
+@@ list
+<% @hosts.each do |host| %>
+<p>
+  <h2>Hosts Info</h2>
+  <%= host.name %>
+  <h3>Command Info</h3>
+  <%= host.result_cipher %>
+  <%= host.result_trace %>
+</p>
+<% end %>
