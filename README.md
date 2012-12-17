@@ -3,7 +3,4 @@ efend
 
 External Frontend
 
-[!] gem Required
-sinatra
-ipaddress
-data_mapper
+gem install sinatra ipaddress data_mapper
