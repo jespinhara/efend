@@ -15,3 +15,7 @@ If you try to run **efend** without first installing all the required gems, Bund
 Since **efend** uses [Sinatra](http://www.sinatrarb.com/), which is based on [Rack](http://rack.github.com/), running require starting up the **rackup** script from the application root:
 
     rackup
+    
+## Screenshot
+
+[CheckCiphers](http://img248.imageshack.us/img248/2438/screenshot20121217at217.png)
