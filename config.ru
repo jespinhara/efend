@@ -23,3 +23,8 @@ map '/ike' do
   run IkeController
 end
 
+require File.join(File.dirname(__FILE__), 'app/about_controller.rb')
+map '/about' do
+  run AboutController
+end
+
